@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Descifrar AES CFB
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/Francoco97/Tarea-3-Cripto/blob/master/tamper.js
 // @version      0.1
 // @description  Descifra AES CFB de 127.0.0.1:5000
 // @author       Franco Palma
@@ -48,3 +48,4 @@ document.getElementsByTagName("form")[0].appendChild(inputt)
 
     console.log(recoveredPlaintext.toString(CryptoJS.enc.Utf8) === message);
 </script>
+/*esto es una prueba*/
