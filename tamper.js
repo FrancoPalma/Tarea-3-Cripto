@@ -1,51 +1,36 @@
 // ==UserScript==
 // @name         Descifrar AES CFB
-// @namespace    https://github.com/Francoco97/Tarea-3-Cripto/blob/master/tamper.js
+// @namespace    https://raw.githubusercontent.com/Francoco97/Tarea-3-Cripto/master/tamper.js
 // @version      0.1
 // @description  Descifra AES CFB de 127.0.0.1:5000
 // @author       Franco Palma
 // @match        127.0.0.1:5000
 // @grant        none
+// @require https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js
+// @require https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js
+// @require https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64.js
+// @require https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js
 // ==/UserScript==
 
-'use strict';
+(function() {
+    'use strict';
 
-var data = document.getElementsByTagName("button")[0].id
-var key = document.getElementsByTagName("form")[0].id
+    var data = "w6kAegGNturTKr2U0pmiBnF5"
+    var key = document.getElementsByTagName("form")[0].id
+    var iv = document.getElementsByTagName("button")[0].name
+    /*console.log(data)
+    console.log(key)
+    console.log(iv)*/
+    key = CryptoJS.SHA256(key);
+    //iv = CryptoJS.enc.Utf8.parse(iv);
+    var decrypted = CryptoJS.AES.decrypt(data, key,{iv:iv},CryptoJS.mode.CFB);
+    //var decrypted = CryptoJS.AES.decrypt(data, key, {iv :iv,  mode: CryptoJS.mode.CFB, padding: CryptoJS.pad.AnsiX923});
 
-var inputt = document.createElement("INPUT");
-inputt.setAttribute("type","text");
-inputt.setAttribute("value",key);
-inputt.setAttribute("id",key);
-document.getElementsByTagName("form")[0].appendChild(inputt)
+    var inputt = document.createElement("INPUT");
+    inputt.setAttribute("type","text");
+    inputt.setAttribute("value",decrypted);
+    inputt.setAttribute("id",decrypted);
+    document.getElementsByTagName("form")[0].appendChild(inputt)
+    console.log(toString(decrypted))
 
-<script type="text/javascript" src="lib/cryptojs-aes.min.js"></script>
-<script type="text/javascript" src="build/mode-cfb-b.min.js"></script>
-<script type="text/javascript">
-    var key = CryptoJS.enc.Hex.parse('2b7e151628aed2a6abf7158809cf4f3c');
-    var iv = CryptoJS.lib.WordArray.random(128/8);
-    var mode = CryptoJS.mode.CFBb;
-    var padding = {
-        pad: function () {},
-        unpad: function () {}
-    }; // NoPadding
-    var segmentSize = 8; // bits; can also be 1, 2, 4, 16, 32, 64, 128 for AES
-
-    var message = "This is some secret message";
-
-    var encrypted = CryptoJS.AES.encrypt(message, key, {
-        iv: iv,
-        mode: mode,
-        padding: padding,
-        segmentSize: segmentSize
-    });
-    var recoveredPlaintext = CryptoJS.AES.decrypt(encrypted, key, {
-        iv: iv,
-        mode: mode,
-        padding: padding,
-        segmentSize: segmentSize
-    });
-
-    console.log(recoveredPlaintext.toString(CryptoJS.enc.Utf8) === message);
-</script>
-/*esto es una prueba*/
+})();//me amanezvo
